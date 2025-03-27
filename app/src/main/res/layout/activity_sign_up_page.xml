@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignUp_Page">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="788dp"
+        android:layout_height="1031dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/v4c_background_color" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageView7"
+        android:layout_width="78dp"
+        android:layout_height="78dp"
+        android:layout_centerInParent="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:shapeAppearanceOverlay="@style/roundedImageView"
+        app:srcCompat="@drawable/v4c_logo" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="142dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="528dp"
+        android:fontFamily="@font/poppins_bold_italic"
+        android:text="   V4C"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <LinearLayout
+        android:layout_width="383dp"
+        android:layout_height="42dp"
+        android:orientation="horizontal"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.979">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="185dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="84dp"
+            android:layout_marginBottom="52dp"
+            android:text="Already have an account?"
+            android:textColor="#545454"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="52dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="84dp"
+            android:layout_marginBottom="28dp"
+            android:text="Log in"
+            android:textColor="#0082CD"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="352dp"
+        android:layout_height="316dp"
+        android:layout_marginTop="28dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.005">
+
+        <EditText
+            android:id="@+id/editTextText4"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edit_shape"
+            android:ems="10"
+            android:hint=" Fullname"
+            android:textColorHint="#9D9FA0"
+            android:inputType="text"
+            android:textColor="@color/black"
+            tools:layout_editor_absoluteX="52dp"
+            tools:layout_editor_absoluteY="52dp" />
+
+        <EditText
+            android:id="@+id/editTextText5"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edit_shape"
+            android:ems="10"
+            android:hint=" Email"
+            android:textColorHint="#9D9FA0"
+            android:inputType="text"
+            android:textColor="@color/black"
+            tools:layout_editor_absoluteX="52dp"
+            tools:layout_editor_absoluteY="52dp" />
+
+        <EditText
+            android:id="@+id/editTextText6"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edit_shape"
+            android:ems="10"
+            android:hint=" Password"
+            android:textColorHint="#9D9FA0"
+            android:cursorVisible="true"
+            android:inputType="text"
+            android:textColor="@color/black"
+            tools:layout_editor_absoluteX="52dp"
+            tools:layout_editor_absoluteY="52dp" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:layout_marginBottom="388dp"
+            android:backgroundTint="#EC5F5F"
+            android:background="@drawable/first_page_button_style"
+            android:text="Sign Up "
+            android:textColor="#ffffff"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.39"
+            app:layout_constraintStart_toStartOf="parent" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
