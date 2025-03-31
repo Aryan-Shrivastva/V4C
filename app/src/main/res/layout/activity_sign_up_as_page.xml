@@ -93,7 +93,7 @@
             android:layout_width="370dp"
             android:layout_height="55dp"
             android:layout_marginTop="10dp"
-            android:backgroundTint="#0082CD"
+            android:backgroundTint="@color/blue_primary"
             android:text="Sign Up as NGO"
             android:textColor="#ffffff"
             tools:layout_editor_absoluteX="25dp"
@@ -104,9 +104,9 @@
             android:layout_width="370dp"
             android:layout_height="55dp"
             android:layout_marginTop="10dp"
-            android:backgroundTint="#F6F7FA"
+            android:backgroundTint="@color/white"
             android:text="Get Started"
-            android:textColor="#303030"
+            android:textColor="#000000"
             tools:layout_editor_absoluteX="25dp"
             tools:layout_editor_absoluteY="433dp" />
 

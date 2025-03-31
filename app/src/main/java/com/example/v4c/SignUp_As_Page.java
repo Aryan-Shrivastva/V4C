@@ -27,6 +27,11 @@ public class SignUp_As_Page extends AppCompatActivity {
         textView4 = findViewById(R.id.textView4);
 
 
+        button2.setBackgroundTintList(null);
+        button3.setBackgroundTintList(null);
+        button4.setBackgroundTintList(null);
+
+
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

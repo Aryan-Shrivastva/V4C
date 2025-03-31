@@ -3,7 +3,9 @@
     <style name="Base.Theme.V4C" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
 
-         <item name="colorPrimary">#EC5F5F</item>
+         <item name="colorPrimary">@color/red_accent</item>
+        <item name="colorPrimaryVariant">@color/blue_primary</item>
+        <item name="colorOnPrimary">@color/white</item>
     </style>
 
     <style name="Theme.V4C" parent="Base.Theme.V4C" />
