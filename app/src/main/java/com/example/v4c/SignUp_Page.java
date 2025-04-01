@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class SignUp_Page extends AppCompatActivity {
     private TextView textView4;
+    private Button button2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,15 +22,16 @@ public class SignUp_Page extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_sign_up_page);
 
+        button2 = findViewById(R.id.button2);
+
         textView4 = findViewById(R.id.textView4);
 
-        textView4.setOnClickListener(new View.OnClickListener() {
+        button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SignUp_Page.this, Login_Page.class);
+                Intent intent = new Intent(SignUp_Page.this, HomePage.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-
 
             }
         });

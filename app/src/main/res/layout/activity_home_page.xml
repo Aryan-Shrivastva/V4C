@@ -98,10 +98,11 @@
         app:layout_constraintTop_toTopOf="@+id/editTextText5" />
 
     <LinearLayout
+        android:id="@+id/linearLayout9"
         android:layout_width="389dp"
         android:layout_height="171dp"
-        android:orientation="horizontal"
 
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -128,8 +129,8 @@
                 android:layout_marginStart="2dp"
                 android:text="Diya Foundation"
                 android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="12dp" />
+                android:textSize="12dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="102dp"
@@ -160,9 +161,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
                 android:text="Chetna"
-                android:textStyle="bold"
                 android:textColor="@color/black"
-                android:textSize="12dp" />
+                android:textSize="12dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="102dp"
@@ -192,9 +193,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
                 android:text="Asha-Kiran"
-                android:textStyle="bold"
                 android:textColor="@color/black"
-                android:textSize="12dp" />
+                android:textSize="12dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="102dp"
@@ -221,6 +222,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextText5"
         app:layout_constraintVertical_bias="0.044" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Events"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.031"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout9"
+        app:layout_constraintVertical_bias="0.292" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
