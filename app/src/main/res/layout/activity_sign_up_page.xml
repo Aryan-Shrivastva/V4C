@@ -14,6 +14,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/v4c_background_color" />
@@ -105,6 +106,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/edit_shape"
             android:ems="10"
+            android:paddingStart="10dp"
             android:hint=" Fullname"
             android:textColorHint="#9D9FA0"
             android:inputType="text"
@@ -119,6 +121,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/edit_shape"
             android:ems="10"
+            android:paddingStart="10dp"
             android:hint=" Email"
             android:textColorHint="#9D9FA0"
             android:inputType="text"
@@ -133,6 +136,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/edit_shape"
             android:ems="10"
+            android:paddingStart="10dp"
             android:hint=" Password"
             android:textColorHint="#9D9FA0"
             android:cursorVisible="true"
