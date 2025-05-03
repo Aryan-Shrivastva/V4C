@@ -3,21 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="@drawable/v4c_background_color"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SignUp_As_Page">
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="788dp"
-        android:layout_height="1191dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/v4c_background_color" />
-
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageView7"
@@ -94,7 +83,7 @@
             android:layout_height="55dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/button_color_2"
-            android:text="Sign Up as NGO"
+            android:text="Login as NGO"
             android:textColor="#ffffff"
             tools:layout_editor_absoluteX="25dp"
             tools:layout_editor_absoluteY="364dp" />
