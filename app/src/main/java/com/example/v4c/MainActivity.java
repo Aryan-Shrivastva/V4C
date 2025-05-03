@@ -2,6 +2,7 @@ package com.example.v4c;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,15 +31,19 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         Intent intent;
 
-        if (currentUser != null) {
-            // User is signed in, go to HomePage
-            intent = new Intent(MainActivity.this, HomePage.class);
-        } else {
-            // No user is signed in, go to Welcome_Page
-            intent = new Intent(MainActivity.this, Welcome_Page.class);
+        try {
+            if (currentUser != null) {
+                intent = new Intent(MainActivity.this, HomePage.class);
+            } else {
+                intent = new Intent(MainActivity.this, Welcome_Page.class);
+            }
+            startActivity(intent);
+            finish();
+        } catch (Exception e) {
+            Log.e("MainActivity", "Navigation error: " + e.getMessage());
+            // Fallback to Welcome_Page if there's an error
+            startActivity(new Intent(MainActivity.this, Welcome_Page.class));
+            finish();
         }
-
-        startActivity(intent);
-        finish(); // Finish MainActivity so it's not in the back stack
     }
 }

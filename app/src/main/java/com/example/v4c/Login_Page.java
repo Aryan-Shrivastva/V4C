@@ -3,9 +3,12 @@ package com.example.v4c;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,16 +26,17 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 
 public class Login_Page extends AppCompatActivity {
 
     private TextView signUp;
     private FirebaseAuth mAuth;
     private Button Login;
-    TextInputEditText editTextEmail,editTextPassword;
+    EditText editTextEmail, editTextPassword;
     ProgressBar loading;
 
-    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,56 +50,64 @@ public class Login_Page extends AppCompatActivity {
         editTextPassword = findViewById(R.id.editTextText6);
         loading = findViewById(R.id.loading);
 
-        Login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loading.setVisibility(View.VISIBLE);
-                String email = editTextEmail.getText().toString().trim();
-                String password = editTextPassword.getText().toString().trim();
+        Login.setOnClickListener(view -> {
+            loading.setVisibility(View.VISIBLE);
+            String email = editTextEmail.getText().toString().trim();
+            String password = editTextPassword.getText().toString().trim();
 
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(Login_Page.this, "Enter Email", Toast.LENGTH_SHORT).show();
-                    loading.setVisibility(View.GONE);
-                    return;
-                }
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(Login_Page.this, "Enter Password", Toast.LENGTH_SHORT).show();
-                    loading.setVisibility(View.GONE);
-                    return;
-                }
-
-                mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                loading.setVisibility(View.GONE);
-                                if (task.isSuccessful()) {
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    Intent intent = new Intent(Login_Page.this, HomePage.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                    startActivity(intent);
-                                    finish();
-                                } else {
-                                    Toast.makeText(Login_Page.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-
-
-
-
+            if (!validateInputs(email, password)) {
+                loading.setVisibility(View.GONE);
+                return;
             }
+
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
+                        loading.setVisibility(View.GONE);
+                        if (task.isSuccessful()) {
+                            Intent intent = new Intent(Login_Page.this, HomePage.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            handleAuthError(task.getException());
+                        }
+                    });
         });
+
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Login_Page.this, SignUp_Page.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);
             }
         });
+    }
+
+    private boolean validateInputs(String email, String password) {
+        if (TextUtils.isEmpty(email)) {
+            editTextEmail.setError("Email is required");
+            return false;
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            editTextEmail.setError("Please enter a valid email");
+            return false;
+        }
+        if (TextUtils.isEmpty(password)) {
+            editTextPassword.setError("Password is required");
+            return false;
+        }
+        return true;
+    }
+
+    private void handleAuthError(Exception exception) {
+        if (exception instanceof FirebaseAuthInvalidUserException) {
+            editTextEmail.setError("Email not registered");
+        } else if (exception instanceof FirebaseAuthInvalidCredentialsException) {
+            editTextPassword.setError("Invalid password");
+        } else {
+            Toast.makeText(this, "Login failed: " + exception.getMessage(),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 }
