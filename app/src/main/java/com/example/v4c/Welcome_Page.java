@@ -27,7 +27,7 @@ public class Welcome_Page extends AppCompatActivity {
                 Intent intent = new Intent(Welcome_Page.this, SignUp_As_Page.class);
 //                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);
-//                finish();
+               finish();
 
 
             }

@@ -15,13 +15,27 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class HomePage extends AppCompatActivity {
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Map;
+
+public class HomePage extends AppCompatActivity {
+    FirebaseAuth mAuth;
+    FirebaseUser user;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home_page);
+        user = mAuth.getCurrentUser();
+//        final Map<String, Object> userData;
+        db.collection("users").document(user.getUid()).get().addOnSuccessListener(documentSnapshot -> {
+                Map<String, Object> userData = documentSnapshot.getData();
+                }
+        );
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

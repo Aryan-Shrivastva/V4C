@@ -1,20 +1,41 @@
 package com.example.v4c;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+import android.util.Patterns;
 
 public class SignUp_Page extends AppCompatActivity {
-    private TextView textView4;
-    private Button button2;
+    private TextView login;
+    private Button signup;
+    EditText editTextName, editTextEmail, editTextPassword;
+
+    FirebaseAuth mAuth;
+    FirebaseFirestore db;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,18 +43,109 @@ public class SignUp_Page extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_sign_up_page);
 
-        button2 = findViewById(R.id.button2);
+        editTextEmail = findViewById(R.id.email);
+        editTextName = findViewById(R.id.name);
+        editTextPassword = findViewById(R.id.password);
+        signup = findViewById(R.id.signup);
+        login = findViewById(R.id.textView4);
+        progressBar = findViewById(R.id.loading);
 
-        textView4 = findViewById(R.id.textView4);
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SignUp_Page.this, HomePage.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-
-            }
+        login.setOnClickListener(v -> {
+            Intent intent = new Intent(SignUp_Page.this, Login_Page.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
         });
+
+        signup.setOnClickListener(view -> {
+            if (!validateSignUpInputs()) {
+                return;
+            }
+
+            progressBar.setVisibility(View.VISIBLE);
+            String name = editTextName.getText().toString().trim();
+            String email = editTextEmail.getText().toString().trim();
+            String password = editTextPassword.getText().toString().trim();
+
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            saveUserDataToFirestore(name, email);
+                        } else {
+                            progressBar.setVisibility(View.GONE);
+                            handleSignUpError(task.getException());
+                        }
+                    });
+        });
+    }
+
+    private boolean validateSignUpInputs() {
+        String name = editTextName.getText().toString().trim();
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+
+        if (TextUtils.isEmpty(name)) {
+            editTextName.setError("Name is required");
+            return false;
+        }
+        if (TextUtils.isEmpty(email)) {
+            editTextEmail.setError("Email is required");
+            return false;
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            editTextEmail.setError("Please enter a valid email");
+            return false;
+        }
+        if (TextUtils.isEmpty(password)) {
+            editTextPassword.setError("Password is required");
+            return false;
+        }
+        if (password.length() < 6) {
+            editTextPassword.setError("Password must be at least 6 characters");
+            return false;
+        }
+        return true;
+    }
+
+    private void saveUserDataToFirestore(String name, String email) {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            String uid = user.getUid();
+            Map<String, Object> userData = new HashMap<>();
+            userData.put("name", name);
+            userData.put("email", email);
+            userData.put("type", "user");
+            userData.put("uid", uid);
+            userData.put("profile", "");
+
+            db.collection("users").document(uid).set(userData)
+                    .addOnSuccessListener(aVoid -> {
+                        progressBar.setVisibility(View.GONE);
+                        Intent intent = new Intent(SignUp_Page.this, HomePage.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    })
+                    .addOnFailureListener(e -> {
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(SignUp_Page.this, "Failed to save user data", 
+                                Toast.LENGTH_SHORT).show();
+                    });
+        }
+    }
+
+    private void handleSignUpError(Exception exception) {
+        String errorMessage = "Registration failed";
+        if (exception instanceof FirebaseAuthWeakPasswordException) {
+            errorMessage = "Password is too weak";
+        } else if (exception instanceof FirebaseAuthInvalidCredentialsException) {
+            errorMessage = "Invalid email format";
+        } else if (exception instanceof FirebaseAuthUserCollisionException) {
+            errorMessage = "Email already registered";
+        }
+        Toast.makeText(SignUp_Page.this, errorMessage, Toast.LENGTH_SHORT).show();
     }
 }

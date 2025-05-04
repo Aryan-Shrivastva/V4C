@@ -3,41 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="@drawable/v4c_background_color"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SignUp_Page">
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="788dp"
-        android:layout_height="1031dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/v4c_background_color" />
-
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageView7"
-        android:layout_width="78dp"
-        android:layout_height="78dp"
+        android:layout_width="101dp"
+        android:layout_height="107dp"
         android:layout_centerInParent="true"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.898"
         app:shapeAppearanceOverlay="@style/roundedImageView"
         app:srcCompat="@drawable/v4c_logo" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="142dp"
-        android:layout_height="50dp"
+        android:layout_height="58dp"
         android:layout_marginBottom="528dp"
         android:fontFamily="@font/poppins_bold_italic"
         android:text="   V4C"
@@ -51,10 +39,11 @@
 
 
     <LinearLayout
+        android:id="@+id/linearLayout10"
         android:layout_width="383dp"
         android:layout_height="42dp"
-        android:orientation="horizontal"
 
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.571"
@@ -100,7 +89,7 @@
         app:layout_constraintVertical_bias="0.005">
 
         <EditText
-            android:id="@+id/editTextText4"
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="10dp"
@@ -115,7 +104,7 @@
             tools:layout_editor_absoluteY="52dp" />
 
         <EditText
-            android:id="@+id/editTextText5"
+            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="10dp"
@@ -130,7 +119,7 @@
             tools:layout_editor_absoluteY="52dp" />
 
         <EditText
-            android:id="@+id/editTextText6"
+            android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="10dp"
@@ -140,13 +129,13 @@
             android:hint=" Password"
             android:textColorHint="#9D9FA0"
             android:cursorVisible="true"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:textColor="@color/black"
             tools:layout_editor_absoluteX="52dp"
             tools:layout_editor_absoluteY="52dp" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/signup"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="10dp"
@@ -162,5 +151,15 @@
             app:layout_constraintStart_toStartOf="parent" />
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
