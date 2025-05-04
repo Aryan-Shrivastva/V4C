@@ -28,6 +28,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Login_Page extends AppCompatActivity {
 
@@ -36,6 +37,8 @@ public class Login_Page extends AppCompatActivity {
     private Button Login;
     EditText editTextEmail, editTextPassword;
     ProgressBar loading;
+    FirebaseUser user;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +67,31 @@ public class Login_Page extends AppCompatActivity {
                     .addOnCompleteListener(task -> {
                         loading.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
-                            Intent intent = new Intent(Login_Page.this, HomePage.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                            finish();
+                            user=mAuth.getCurrentUser();
+                            user = mAuth.getCurrentUser();
+                            if (user != null) {
+                                db.collection("users").document(user.getUid())
+                                        .get()
+                                        .addOnSuccessListener(documentSnapshot -> {
+                                            if (documentSnapshot.exists()) {
+                                                String userType = documentSnapshot.getString("type");
+                                                if ("NGO".equals(userType)) {
+                                                    // Navigate to NGO homepage
+                                                    startActivity(new Intent(Login_Page.this, NgoDashboard.class));
+                                                } else {
+                                                    // Navigate to user homepage
+                                                    startActivity(new Intent(Login_Page.this, HomePage.class));
+                                                }
+                                                finish();
+                                            } else {
+                                                Toast.makeText(Login_Page.this, "User record not found", Toast.LENGTH_SHORT).show();
+                                            }
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Toast.makeText(Login_Page.this, "Failed to fetch user data", Toast.LENGTH_SHORT).show();
+                                        });
+                            }
+
                         } else {
                             handleAuthError(task.getException());
                         }
