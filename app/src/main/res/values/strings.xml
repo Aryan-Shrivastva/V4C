@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">V4C</string>
+    <string-array name="event_categories">
+        <item>Select a category</item>
+        <item>Asha Kiran</item>
+        <item>Chetna</item>
+        <item>Asha Kiran</item>
+        <item>Asha Kiran</item>
+        <item>Asha Kiran</item>
+        <item>Asha Kiran</item>
+        <item>Asha Kiran</item>
+        <item>Asha Kiran</item>
+        <item>Other</item>
+    </string-array>
 </resources>

@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:background="@drawable/welcome"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Volunteer_Roles">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/createNewEvent"
+                    android:layout_width="184dp"
+                    android:layout_height="50dp"
+                    android:text="Add Volunteer"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold">
+                </TextView>
+            </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        app:cardBackgroundColor="#FF8DAD"
+                        app:cardCornerRadius="0dp">
+
+                        <TextView
+                            android:layout_width="200dp"
+                            android:layout_height="50dp"
+                            android:paddingStart="20dp"
+                            android:paddingTop="10dp"
+                            android:text="Volunteer Roles"
+                            android:textColor="@color/black"
+                            android:textSize="18dp"
+                            android:textStyle="bold">
+                        </TextView>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Container for all role sections -->
+                    <LinearLayout
+                        android:id="@+id/rolesContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- First role section -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/roleNumber"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="30dp"
+                                    android:paddingTop="10dp"
+                                    android:paddingLeft="20dp"
+                                    android:text="Role 1"
+                                    android:textColor="@color/black"
+                                    android:textSize="15dp"
+                                    android:textStyle="bold">
+                                </TextView>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="80dp"
+                                android:layout_gravity="center"
+                                android:orientation="vertical"
+                                android:paddingStart="10dp"
+                                android:paddingEnd="10dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="30dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="175dp"
+                                        android:layout_height="30dp"
+                                        android:paddingStart="10dp"
+                                        android:paddingTop="10dp"
+                                        android:text="Role title"
+                                        android:textColor="@color/black"
+                                        android:textSize="15dp"
+                                        android:textStyle="bold">
+                                    </TextView>
+
+                                    <TextView
+                                        android:layout_width="175dp"
+                                        android:layout_height="30dp"
+                                        android:paddingStart="10dp"
+                                        android:paddingTop="10dp"
+                                        android:text="Role Duration"
+                                        android:textColor="@color/black"
+                                        android:textSize="15dp"
+                                        android:textStyle="bold">
+                                    </TextView>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="50dp"
+                                    android:orientation="horizontal">
+
+                                    <EditText
+                                        android:id="@+id/title"
+                                        android:layout_width="160dp"
+                                        android:layout_height="50dp"
+                                        android:background="@drawable/event_box"
+                                        android:hint="e.g., Event Coordinator"
+                                        android:paddingStart="8dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="#979797"
+                                        android:textSize="13dp">
+                                    </EditText>
+
+                                    <Space
+                                        android:layout_width="20dp"
+                                        android:layout_height="10dp">
+                                    </Space>
+
+                                    <EditText
+                                        android:id="@+id/roleDuration"
+                                        android:layout_width="160dp"
+                                        android:layout_height="50dp"
+                                        android:background="@drawable/event_box"
+                                        android:hint="e.g., 4 hours"
+                                        android:paddingStart="8dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="#979797"
+                                        android:textSize="13dp">
+                                    </EditText>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="120dp"
+                                android:layout_gravity="center"
+                                android:orientation="vertical"
+                                android:paddingStart="10dp"
+                                android:paddingEnd="10dp">
+
+                                <TextView
+                                    android:layout_width="180dp"
+                                    android:layout_height="30dp"
+                                    android:paddingStart="10dp"
+                                    android:paddingTop="10dp"
+                                    android:text="Role Description "
+                                    android:textColor="@color/black"
+                                    android:textSize="15dp"
+                                    android:textStyle="bold">
+                                </TextView>
+
+                                <EditText
+                                    android:id="@+id/RoleDesc"
+                                    android:layout_width="match_parent"
+                                    android:paddingEnd="5dp"
+                                    android:layout_height="90dp"
+                                    android:background="@drawable/event_box"
+                                    android:gravity="top|start"
+                                    android:hint="Describe what your volunteers will do in this role"
+                                    android:paddingStart="8dp"
+                                    android:paddingTop="10dp"
+                                    android:textColorHint="#979797"
+                                    android:textColor="@color/black"
+                                    android:textSize="13dp">
+                                </EditText>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="90dp"
+                                android:layout_gravity="center"
+                                android:orientation="vertical"
+                                android:paddingStart="10dp"
+                                android:paddingEnd="10dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="30dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="175dp"
+                                        android:layout_height="30dp"
+                                        android:paddingStart="10dp"
+                                        android:paddingTop="10dp"
+                                        android:text="Required Skills"
+                                        android:textColor="@color/black"
+                                        android:textSize="15dp"
+                                        android:textStyle="bold">
+                                    </TextView>
+
+                                    <TextView
+                                        android:layout_width="175dp"
+                                        android:layout_height="30dp"
+                                        android:paddingStart="10dp"
+                                        android:paddingTop="10dp"
+                                        android:text="Number of position"
+                                        android:textColor="@color/black"
+                                        android:textSize="15dp"
+                                        android:textStyle="bold">
+                                    </TextView>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="60dp"
+                                    android:orientation="horizontal">
+
+                                    <EditText
+                                        android:id="@+id/RequiredSkills"
+                                        android:layout_width="160dp"
+                                        android:layout_height="50dp"
+                                        android:background="@drawable/event_box"
+                                        android:hint="e.g., Communication"
+                                        android:paddingStart="8dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="#979797"
+                                        android:textSize="13dp">
+                                    </EditText>
+
+                                    <Space
+                                        android:layout_width="20dp"
+                                        android:layout_height="match_parent">
+                                    </Space>
+
+
+                                    <EditText
+                                        android:id="@+id/NoOfPos"
+                                        android:layout_width="160dp"
+                                        android:layout_height="50dp"
+                                        android:background="@drawable/event_box"
+                                        android:hint="1"
+                                        android:inputType="number"
+                                        android:paddingStart="8dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="#979797"
+                                        android:textSize="15dp">
+                                    </EditText>
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:background="#EEEEEE" />
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp">
+                        </Space>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:paddingStart="10dp"
+                            android:orientation="vertical"
+                            android:paddingEnd="10dp">
+
+                            <android.widget.Button
+                                android:id="@+id/addAnotherRole"
+                                android:paddingStart="20dp"
+                                android:layout_width="match_parent"
+                                android:textSize="12dp"
+                                android:textColor="@color/black"
+                                android:textAlignment="center"
+                                android:text="+Add Another Role"
+                                android:layout_height="50dp"
+                                android:background="@drawable/event_box">
+                            </android.widget.Button>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp">
+            </Space>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:paddingStart="140dp"
+                android:orientation="horizontal">
+
+                <android.widget.Button
+                    android:id="@+id/cancelButton"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:text="Cancel"
+                    android:textColor="@color/white"
+                    android:background="@drawable/cancel_button">
+                </android.widget.Button>
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="10dp">
+                </Space>
+
+                <android.widget.Button
+                    android:id="@+id/createButton"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:text="Create"
+                    android:textColor="@color/white"
+                    android:background="@drawable/create_button">
+                </android.widget.Button>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
