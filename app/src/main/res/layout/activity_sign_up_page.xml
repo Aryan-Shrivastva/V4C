@@ -24,17 +24,18 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="142dp"
-        android:layout_height="58dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textAlignment="center"
         android:layout_marginBottom="528dp"
-        android:fontFamily="@font/poppins_bold_italic"
-        android:text="   V4C"
+        android:fontFamily="@font/poppins_black"
+        android:text="@string/app_name"
         android:textColor="@color/black"
         android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
 
@@ -42,7 +43,7 @@
         android:id="@+id/linearLayout10"
         android:layout_width="383dp"
         android:layout_height="42dp"
-
+        android:layout_marginBottom="168dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -151,15 +152,6 @@
             app:layout_constraintStart_toStartOf="parent" />
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="28dp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout10"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

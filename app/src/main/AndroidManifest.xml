@@ -16,15 +16,11 @@
         android:roundIcon="@drawable/v4c_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.V4C"
+        android:hardwareAccelerated="true"
         tools:targetApi="31">
+
         <activity
-            android:name=".NgoDashboard"
-            android:exported="false" />
-        <activity
-            android:name=".Volunteer_Roles"
-            android:exported="false" />
-        <activity
-            android:name=".CreateEvent"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,9 +28,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".loadingActivity" />
+
+
+
         <activity
-            android:name=".HomePage"
+            android:name=".ngo.NgoDashboard"
             android:exported="false" />
+        <activity
+            android:name=".Volunteer_Roles"
+            android:exported="false" />
+        <activity
+            android:name=".volunteer.HomePage"
+            android:exported="false" />
+        <activity
+            android:name=".CreateEvent"
+            android:exported="false">
+        </activity>
+
         <activity
             android:name=".Login_Page"
             android:exported="false" />
@@ -47,15 +59,6 @@
         <activity
             android:name=".Welcome_Page"
             android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
 
         <meta-data
             android:name="preloaded_fonts"

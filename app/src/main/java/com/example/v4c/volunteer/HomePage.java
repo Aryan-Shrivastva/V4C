@@ -1,4 +1,4 @@
-package com.example.v4c;
+package com.example.v4c.volunteer;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -15,6 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.v4c.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -30,12 +31,15 @@ public class HomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home_page);
+        mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
 //        final Map<String, Object> userData;
         db.collection("users").document(user.getUid()).get().addOnSuccessListener(documentSnapshot -> {
                 Map<String, Object> userData = documentSnapshot.getData();
                 }
         );
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

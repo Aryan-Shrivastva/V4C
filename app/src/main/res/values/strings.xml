@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">V4C</string>
+    <string name="app_name">CharltEase</string>
     <string-array name="event_categories">
         <item>Select a category</item>
         <item>Asha Kiran</item>
