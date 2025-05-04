@@ -69,7 +69,7 @@
         android:layout_height="59dp"
         android:layout_marginTop="4dp"
         android:text="   Join hands, spread kindness, and transform lives through volunteering"
-        android:textColor="#D3D1D1"
+        android:textColor="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
