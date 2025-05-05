@@ -13,6 +13,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.example.v4c.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 
 public class CommunityDetailActivity extends AppCompatActivity {
@@ -21,11 +23,16 @@ public class CommunityDetailActivity extends AppCompatActivity {
     TextView tvVolunteers, tvExperience, tvRating;
     ImageView mainImage;
     Button volunteerBtn;
+    FirebaseAuth mAuth;
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_community_detail);
+
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -61,12 +68,19 @@ public class CommunityDetailActivity extends AppCompatActivity {
 
         volunteerBtn.setOnClickListener(v ->
                 {
-                Toast.makeText(this, "Thank You for showing interest!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Thank You for showing interest!", Toast.LENGTH_SHORT).show();
 
-                String userAddress = communityModel.email;
-                String userSubject = "VOLUNTEER RECEIVED";
-                String userBody = " I'd like to volunteer for "+communityModel.name+" \n  \n ! Looking forward to a positive response ! ";
-                sendEmail(userAddress, userSubject, userBody);
+                    String userAddress = communityModel.email;
+                    String userSubject = "Volunteer Application for " + communityModel.name;
+                    String userBody = "Dear " + communityModel.name + " Team,\n\n"
+
+                            + "I am writing to express my interest in volunteering for your organization. "
+                            + "I am enthusiastic about the work you do and would be honored to contribute in any way I can.\n\n"
+                            + "Please let me know how I can get involved or if there are any steps I should take to begin the process.\n\n"
+                            + "Looking forward to your response.\n\n"
+                            + "Best regards,\n";
+//                            +  userData.name;
+                    sendEmail(userAddress, userSubject, userBody);
                 });
 
     }
@@ -87,10 +101,18 @@ public class CommunityDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
 
 
 }

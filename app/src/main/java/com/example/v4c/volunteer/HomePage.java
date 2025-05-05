@@ -2,9 +2,11 @@ package com.example.v4c.volunteer;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +23,7 @@ import com.example.v4c.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +33,24 @@ public class HomePage extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    LinearLayout volunteer, events, rewards, explore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home_page);
+
+        volunteer = findViewById(R.id.btnVolunteer);
+        events = findViewById(R.id.btnEvents);
+        rewards = findViewById(R.id.btnRewards);
+        explore = findViewById(R.id.btnExplore);
+
+        events.setOnClickListener(v->{
+            Intent intent = new Intent(HomePage.this, EventListing.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
