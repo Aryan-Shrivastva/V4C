@@ -1,4 +1,5 @@
 package com.example.v4c.volunteer;
+import android.app.Activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -47,7 +48,12 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter. Com
             Intent intent = new Intent(context, CommunityDetailActivity.class);
             intent.putExtra("ngo", new Gson().toJson(ngo));
             context.startActivity(intent);
+            //animation
+            if (context instanceof Activity) {
+                ((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
         });
+
     }
 
     @Override

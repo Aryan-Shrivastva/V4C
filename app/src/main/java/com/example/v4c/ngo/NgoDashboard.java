@@ -1,5 +1,6 @@
 package com.example.v4c.ngo;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -9,7 +10,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.graphics.Color;
+import android.widget.Button;
 
+import com.example.v4c.CreateEvent;
 import com.example.v4c.R;
 
 import org.eazegraph.lib.charts.BarChart;
@@ -28,6 +31,7 @@ public class NgoDashboard extends AppCompatActivity {
     private int i1 = 15;
     private int i2 = 40;
     private int i3 = 20;
+    private Button addNewEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,11 @@ public class NgoDashboard extends AppCompatActivity {
             return insets;
         });
 
+        addNewEvent = findViewById(R.id.addEventButton);
+        addNewEvent.setOnClickListener(view -> {
+            Intent intent = new Intent(NgoDashboard.this, CreateEvent.class);
+            startActivity(intent);
+        });
 
 
         chart = findViewById(R.id.pie_chart);
