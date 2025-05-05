@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -24,7 +25,7 @@
             android:layout_gravity="center"
             android:orientation="vertical"
             android:padding="16dp">
-            
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -73,32 +74,45 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:paddingTop="10dp"
-                            android:paddingStart="10dp"
-                            android:orientation="horizontal">
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
 
-                            <TextView
-                                android:layout_width="79dp"
-                                android:layout_height="wrap_content"
-                                android:text="Events"
-                                android:textColor="@color/black"
-                                android:textSize="15dp"
-                                android:textStyle="bold">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:paddingTop="10dp"
+                                android:paddingStart="10dp"
+                                android:orientation="horizontal">
 
-                            </TextView>
+                                <TextView
+                                    android:layout_width="79dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Events"
+                                    android:textColor="@color/black"
+                                    android:textSize="15dp"
+                                    android:textStyle="bold">
 
-                            <TextView
-                                android:layout_width="80dp"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="10dp"
-                                android:text="November"
-                                android:textColor="@color/black"
-                                android:textSize="12dp"
-                                android:textStyle="bold">
+                                </TextView>
 
-                            </TextView>
+                                <TextView
+                                    android:layout_width="80dp"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="10dp"
+                                    android:text="November"
+                                    android:textColor="@color/black"
+                                    android:textSize="12dp"
+                                    android:textStyle="bold">
 
+                                </TextView>
+                            </LinearLayout>
+
+                            <org.eazegraph.lib.charts.PieChart
+                                android:id="@+id/pie_chart"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="10dp" >
+
+                            </org.eazegraph.lib.charts.PieChart>
 
                         </LinearLayout>
 
@@ -116,34 +130,18 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:paddingTop="10dp"
-                            android:paddingStart="10dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="79dp"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="40dp"
-                                android:text="+5%"
-                                android:textColor="@color/black"
-                                android:textSize="15dp"
-                                android:textStyle="bold">
-
-                            </TextView>
-
-                            <TextView
-                                android:layout_width="80dp"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="20dp"
-                                android:text="+15%"
-                                android:textColor="@color/black"
-                                android:textSize="12dp"
-                                android:textStyle="bold">
-
-                            </TextView>
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
 
 
+                            <org.eazegraph.lib.charts.BarChart
+                                android:id="@+id/barChart"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="10dp"
+                                app:egFixedBarWidth="true">
+
+                            </org.eazegraph.lib.charts.BarChart>
                         </LinearLayout>
 
                     </com.google.android.material.card.MaterialCardView>
@@ -189,6 +187,14 @@
 
                         </LinearLayout>
 
+                        <org.eazegraph.lib.charts.ValueLineChart
+                            android:id="@+id/lineChart"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="10dp">
+
+                        </org.eazegraph.lib.charts.ValueLineChart>
+
                     </LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
@@ -201,3 +207,4 @@
 
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
+
