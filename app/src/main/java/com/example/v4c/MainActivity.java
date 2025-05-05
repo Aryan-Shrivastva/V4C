@@ -42,17 +42,11 @@ public class MainActivity extends AppCompatActivity {
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
                             String type = documentSnapshot.getString("type");
-
-                            if ("user".equals(type)) {
-                                Toast.makeText(this, "VOLUNTEER SIDE", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(MainActivity.this, HomePage.class));
-                            } else {
-                                Toast.makeText(this, "NGO SIDE", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(MainActivity.this, NgoDashboard.class));
-                            }
+                            Toast.makeText(this, "VOLUNTEER SIDE", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(MainActivity.this, HomePage.class));
                         } else {
-                            // No type found, send to welcome page
-                            startActivity(new Intent(MainActivity.this, Welcome_Page.class));
+                            Toast.makeText(this, "NGO SIDE", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(MainActivity.this, NgoDashboard.class));
                         }
                         finish(); // Safe to finish inside async block
                     })

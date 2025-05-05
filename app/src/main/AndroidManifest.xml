@@ -60,9 +60,16 @@
             android:name=".Welcome_Page"
             android:exported="false" />
 
+
+        <activity android:name=".volunteer.CommunityDetailActivity" />
+        <activity android:name=".volunteer.EventListing"/>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBK7GTsxeLS2sXZuajUI-g9LIO8mDnRvXo" />
     </application>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
