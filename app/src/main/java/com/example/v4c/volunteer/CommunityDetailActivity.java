@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.example.v4c.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
 import com.google.gson.Gson;
 
 public class CommunityDetailActivity extends AppCompatActivity {
@@ -30,7 +31,6 @@ public class CommunityDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_community_detail);
-
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
 
@@ -81,6 +81,7 @@ public class CommunityDetailActivity extends AppCompatActivity {
                             + "Best regards,\n";
 //                            +  userData.name;
                     sendEmail(userAddress, userSubject, userBody);
+
                 });
 
     }
@@ -112,7 +113,5 @@ public class CommunityDetailActivity extends AppCompatActivity {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
-
-
 
 }

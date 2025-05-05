@@ -42,6 +42,8 @@
         <activity
             android:name=".volunteer.HomePage"
             android:exported="false" />
+        <activity android:name=".volunteer.CommunityDetailActivity" />
+
         <activity
             android:name=".CreateEvent"
             android:exported="false">

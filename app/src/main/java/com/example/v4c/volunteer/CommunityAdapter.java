@@ -1,6 +1,6 @@
 package com.example.v4c.volunteer;
-
 import android.app.Activity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -37,7 +37,6 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter. Com
         return new CommunityViewHolder(view);
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull  CommunityViewHolder holder, int position) {
         CommunityModel ngo = communityList.get(position);
@@ -57,7 +56,6 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter. Com
 
     }
 
-
     @Override
     public int getItemCount() {
         return communityList.size();
@@ -74,7 +72,4 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter. Com
             image = itemView.findViewById(R.id.ngo_image);
         }
     }
-
-
-
 }

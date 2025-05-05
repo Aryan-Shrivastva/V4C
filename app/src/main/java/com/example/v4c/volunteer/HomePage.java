@@ -35,6 +35,7 @@ public class HomePage extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     LinearLayout volunteer, events, rewards, explore;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
