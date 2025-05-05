@@ -49,5 +49,6 @@ dependencies {
     val lottieVersion = "3.4.0"
 
     implementation("com.airbnb.android:lottie:$lottieVersion")
-
+    implementation ("com.github.blackfizz:eazegraph:1.2.5l@aar")
+    implementation ("com.nineoldandroids:library:2.4.0")
 }
