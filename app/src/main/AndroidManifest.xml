@@ -21,7 +21,29 @@
 
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="false">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+
+        <activity android:name=".loadingActivity" />
+
+        <activity android:name=".volunteer.EventDetailActivity"
+            android:exported="false">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+
+
+        <activity
+            android:name=".ngo.NgoDashboard"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,13 +51,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".loadingActivity" />
-
-
-
-        <activity
-            android:name=".ngo.NgoDashboard"
-            android:exported="false" />
         <activity
             android:name=".Volunteer_Roles"
             android:exported="false" />
@@ -63,8 +78,8 @@
             android:exported="false" />
 
 
-        <activity android:name=".volunteer.CommunityDetailActivity" />
-        <activity android:name=".volunteer.EventListing"/>
+        <activity android:name=".volunteer.EventListing" />
+        <activity android:name=".volunteer.Explore"/>
 
         <meta-data
             android:name="preloaded_fonts"

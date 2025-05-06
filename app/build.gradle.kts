@@ -49,7 +49,6 @@ dependencies {
     val lottieVersion = "3.4.0"
 
     implementation("com.airbnb.android:lottie:$lottieVersion")
-    implementation ("com.google.code.gson:gson:2.10.1")
 
     implementation ("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
@@ -58,9 +57,6 @@ dependencies {
     implementation ("com.nineoldandroids:library:2.4.0")
 
     implementation ("com.google.code.gson:gson:2.10.1")
-
-    implementation ("com.github.bumptech.glide:glide:4.15.1")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
 
     implementation ("com.google.android.gms:play-services-maps:18.0.2")
 }
