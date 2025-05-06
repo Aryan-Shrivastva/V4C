@@ -8,12 +8,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.widget.Button;
 
 import com.example.v4c.CreateEvent;
 import com.example.v4c.R;
+import com.example.v4c.volunteer.CommunityAdapter;
+import com.example.v4c.volunteer.CommunityModel;
+import com.example.v4c.volunteer.EventAdapter;
+import com.example.v4c.volunteer.EventModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.eazegraph.lib.charts.BarChart;
 import org.eazegraph.lib.charts.PieChart;
@@ -23,6 +32,9 @@ import org.eazegraph.lib.models.PieModel;
 import org.eazegraph.lib.models.ValueLinePoint;
 import org.eazegraph.lib.models.ValueLineSeries;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class NgoDashboard extends AppCompatActivity {
 
     private PieChart chart;
@@ -31,7 +43,9 @@ public class NgoDashboard extends AppCompatActivity {
     private int i1 = 15;
     private int i2 = 40;
     private int i3 = 20;
-    private Button addNewEvent;
+    private FloatingActionButton addNewEvent;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +73,31 @@ public class NgoDashboard extends AppCompatActivity {
 
         LineChart = findViewById(R.id.lineChart);
         addToLineChart();
+
+
+
+
+        RecyclerView eventRecycler = findViewById(R.id.eventsRecycler);
+        eventRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        List<EventModel> eventList = new ArrayList<>();
+        EventAdapter eventAdapter = new EventAdapter(this, eventList);
+        eventRecycler.setAdapter(eventAdapter);
+
+        db.collection("events").get().addOnSuccessListener(queryDocumentSnapshots -> {
+            eventList.clear();
+            for (var doc : queryDocumentSnapshots.getDocuments()) {
+                EventModel model = doc.toObject(EventModel.class);
+                if (model != null) {
+                    Log.d("EVENT_DEBUG", "Title: " + model.getTitle());
+                    eventList.add(model);
+                }
+//                eventList.add(model);
+            }
+            eventAdapter.notifyDataSetChanged();
+        }).addOnFailureListener(Throwable::printStackTrace);
+
+
     }
 
     private void addToPieChart() {

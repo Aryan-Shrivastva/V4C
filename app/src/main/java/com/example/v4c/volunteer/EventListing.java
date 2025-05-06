@@ -1,37 +1,40 @@
 package com.example.v4c.volunteer;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.content.pm.PackageManager;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.v4c.R;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-public class EventListing extends AppCompatActivity implements OnMapReadyCallback{
+import java.util.ArrayList;
+import java.util.List;
 
-    private GoogleMap myMap;
-    private final LatLng bmuLatLng = new LatLng(28.24749740961875, 76.81450398233812);
+public class EventListing extends AppCompatActivity {
+
+    RecyclerView recyclerView;
+    List<EventModel> eventList;
+    EventAdapter eventAdapter;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_event_listing); // Make sure this layout name is correct
 
-        setContentView(R.layout.activity_event_listing);
+        recyclerView = findViewById(R.id.eventsRecycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        eventList = new ArrayList<>();
+        eventAdapter = new EventAdapter(this, eventList);
+        recyclerView.setAdapter(eventAdapter);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
+        fetchEvents();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar3);
 
         setSupportActionBar(toolbar);
 
@@ -39,16 +42,17 @@ public class EventListing extends AppCompatActivity implements OnMapReadyCallbac
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        SupportMapFragment mapFragment = (SupportMapFragment)
-                getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this); // Implement OnMapReadyCallback interface
     }
 
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        myMap = googleMap;
-        myMap.addMarker(new MarkerOptions().position(bmuLatLng).title("BMU"));
-        myMap.moveCamera(CameraUpdateFactory.newLatLng(bmuLatLng));
+    private void fetchEvents() {
+        db.collection("events").get().addOnSuccessListener(queryDocumentSnapshots -> {
+            eventList.clear();
+            for (var doc : queryDocumentSnapshots.getDocuments()) {
+                EventModel event = doc.toObject(EventModel.class);
+                eventList.add(event);
+            }
+            eventAdapter.notifyDataSetChanged();
+        }).addOnFailureListener(Throwable::printStackTrace);
     }
 
     @Override
@@ -66,6 +70,4 @@ public class EventListing extends AppCompatActivity implements OnMapReadyCallbac
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
-
-
 }
