@@ -59,6 +59,7 @@ public class Login_Page extends AppCompatActivity {
                             user = mAuth.getCurrentUser();
                             if (user != null) {
                                 Intent intent = new Intent(Login_Page.this, loadingActivity.class);
+
                                 intent.putExtra("fromLogin", true);
                                 startActivity(intent);
                                 finish();

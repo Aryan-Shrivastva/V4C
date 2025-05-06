@@ -33,10 +33,10 @@
                 android:paddingBottom="12dp">
 
                 <ImageView
+                    android:id="@+id/menu"
                     android:layout_width="40dp"
                     android:layout_height="48dp"
-                    android:src="@drawable/menu"
-                    app:shapeAppearanceOverlay="@style/roundedImageView" />
+                    android:src="@drawable/menu" />
 
                 <LinearLayout
                     android:layout_width="0dp"

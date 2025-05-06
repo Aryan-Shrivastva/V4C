@@ -7,7 +7,11 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +24,9 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.example.v4c.R;
+import com.example.v4c.SignUp_As_Page;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,7 +40,7 @@ public class HomePage extends AppCompatActivity {
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     LinearLayout volunteer, events, rewards, explore;
-
+    ImageView menuIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +52,18 @@ public class HomePage extends AppCompatActivity {
         events = findViewById(R.id.btnEvents);
         rewards = findViewById(R.id.btnRewards);
         explore = findViewById(R.id.btnExplore);
+        menuIcon = findViewById(R.id.menu);
 
-        events.setOnClickListener(v->{
+
+        menuIcon.setOnClickListener(view -> showPopupMenu(view));
+
+        events.setOnClickListener(v -> {
             Intent intent = new Intent(HomePage.this, EventListing.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
-        explore.setOnClickListener(v->{
+        explore.setOnClickListener(v -> {
             Intent intent = new Intent(HomePage.this, Explore.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -116,10 +126,31 @@ public class HomePage extends AppCompatActivity {
                     Log.d("EVENT_DEBUG", "Title: " + model.getTitle());
                     eventList.add(model);
                 }
-//                eventList.add(model);
             }
             eventAdapter.notifyDataSetChanged();
         }).addOnFailureListener(Throwable::printStackTrace);
+    }
+
+    private void showPopupMenu(View anchor) {
+        PopupMenu popupMenu = new PopupMenu(HomePage.this, anchor);
+        popupMenu.getMenuInflater().inflate(R.menu.pop, popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.profile) {
+                // Handle profile logic here
+                return true;
+            } else if (item.getItemId() == R.id.signOut) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(HomePage.this, SignUp_As_Page.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+                return true;
+            }
+            return false;
+        });
+
+        popupMenu.show();
     }
 
     private void createNotificationChannel() {
@@ -143,7 +174,6 @@ public class HomePage extends AppCompatActivity {
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // Request permission if needed
             return;
         }
         notificationManager.notify(1, builder.build());
