@@ -1,8 +1,12 @@
 package com.example.v4c;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.animation.BounceInterpolator;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -19,36 +23,57 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        // Initialize Firebase Auth & Firestore
+        ImageView logo = findViewById(R.id.imageView7);
+        TextView text = findViewById(R.id.textView);
+
+        logo.post(() -> {
+            float targetY = text.getY() - logo.getHeight() - text.getHeight() - 740f;
+
+            // Jump + Bounce
+            ObjectAnimator jump = ObjectAnimator.ofFloat(logo, "translationY", -300f, targetY);
+            jump.setDuration(1000);
+            jump.setInterpolator(new BounceInterpolator());
+
+            // Fade-in of text
+            text.setAlpha(0f);
+            ObjectAnimator fadeIn = ObjectAnimator.ofFloat(text, "alpha", 0f, 1f);
+            fadeIn.setDuration(800);
+            fadeIn.setStartDelay(1200);
+
+            jump.start();
+            fadeIn.start();
+
+            logo.postDelayed(this::proceedToNext, 2800);
+        });
+
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
 
+
+    private void proceedToNext() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
-            // Check user type from Firestore
             db.collection("users").document(currentUser.getUid()).get()
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
-                            String type = documentSnapshot.getString("type");
                             Toast.makeText(this, "VOLUNTEER SIDE", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(MainActivity.this, HomePage.class));
                         } else {
                             Toast.makeText(this, "NGO SIDE", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(MainActivity.this, NgoDashboard.class));
                         }
-                        finish(); // Safe to finish inside async block
+                        finish();
                     })
                     .addOnFailureListener(e -> {
                         Log.e("MainActivity", "Firestore error: " + e.getMessage());
@@ -56,9 +81,9 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                     });
         } else {
-            // No user logged in
             startActivity(new Intent(MainActivity.this, Welcome_Page.class));
             finish();
         }
     }
+
 }

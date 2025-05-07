@@ -1,23 +1,14 @@
+
 package com.example.v4c;
-
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,18 +16,31 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class CreateEvent extends AppCompatActivity {
@@ -46,7 +50,7 @@ public class CreateEvent extends AppCompatActivity {
     private EditText eventDate;
     private EditText eventTime;
     private EditText eventLoc;
-    
+
     private Spinner eventCat;
     private SwitchCompat eventSwitch;
     private Button selectImageButton;
@@ -54,6 +58,11 @@ public class CreateEvent extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri selectedImageUri;
+    private String cloudinaryUrl;
+
+    private static final String TAG = "CreateEvent";
+    private boolean isCloudinaryConfigured = false;
+    ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,12 +81,43 @@ public class CreateEvent extends AppCompatActivity {
 
         setupNextButton();
 
+        // Initialize Cloudinary
+        initCloudinary();
+
+        back = findViewById(R.id.back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         EdgeToEdge.enable(this);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    private void initCloudinary() {
+        try {
+            if (!isCloudinaryConfigured) {
+                // Configure Cloudinary
+                Map<String, String> config = new HashMap<>();
+                config.put("cloud_name", "dv7dxn2ku"); // Your cloud name
+                config.put("api_key", "185228787423927"); // Your API key
+                config.put("api_secret", "PESM4x7CPh0DLnibl6oZBHwBplk");
+
+                MediaManager.init(this, config);
+                isCloudinaryConfigured = true;
+                Log.d(TAG, "Cloudinary initialized successfully");
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error initializing Cloudinary: " + e.getMessage());
+            Toast.makeText(this, "Failed to initialize image upload service", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initializeViews() {
@@ -89,7 +129,7 @@ public class CreateEvent extends AppCompatActivity {
         eventCat = findViewById(R.id.eventCat);
         eventSwitch = findViewById(R.id.eventSwitch);
         selectImageButton = findViewById(R.id.selectImageButton);
-//        submitButton = findViewById(R.id.submitButton);
+        nextButton = findViewById(R.id.nextButton);
     }
 
     private void setupCategorySpinner() {
@@ -179,11 +219,9 @@ public class CreateEvent extends AppCompatActivity {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             selectedImageUri = data.getData();
-            Toast.makeText(this, "Image selected successfully", Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(this, "Image selected, uploading...", Toast.LENGTH_SHORT).show();
 
             TextView dragDropText = findViewById(R.id.dragDropText);
-            TextView recommendedSizeText = findViewById(R.id.recommendedSizeText);
             Button selectImageButton = findViewById(R.id.selectImageButton);
 
             String fileName = getFileName(selectedImageUri);
@@ -193,17 +231,81 @@ public class CreateEvent extends AppCompatActivity {
             }
 
             if (selectImageButton != null) {
-                selectImageButton.setText("Change Image");
+                selectImageButton.setText("Uploading...");
+                selectImageButton.setEnabled(false);
             }
 
-//             ImageView imagePreview = findViewById(R.id.imagePreview);
-//             try {
-//                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
-//                 imagePreview.setVisibility(View.VISIBLE);
-//                 imagePreview.setImageBitmap(bitmap);
-//             } catch (IOException e) {
-//                 e.printStackTrace();
-//             }
+            // Upload the image to Cloudinary
+            uploadImageToCloudinary(selectedImageUri);
+        }
+    }
+
+    private void uploadImageToCloudinary(Uri imageUri) {
+        if (!isCloudinaryConfigured) {
+            Toast.makeText(this, "Image upload service not initialized", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            String requestId = MediaManager.get().upload(imageUri)
+                    .option("folder", "v4c_events")
+                    .option("resource_type", "auto")
+                    .callback(new UploadCallback() {
+                        @Override
+                        public void onStart(String requestId) {
+                            Log.d(TAG, "Upload started");
+                        }
+
+                        @Override
+                        public void onProgress(String requestId, long bytes, long totalBytes) {
+                            double progress = (double) bytes / totalBytes;
+                            Log.d(TAG, "Upload progress: " + (int) (progress * 100) + "%");
+                        }
+
+                        @Override
+                        public void onSuccess(String requestId, Map resultData) {
+                            cloudinaryUrl = (String) resultData.get("url");
+                            Log.d(TAG, "Upload successful: " + cloudinaryUrl);
+
+                            runOnUiThread(() -> {
+                                Toast.makeText(CreateEvent.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+                                Button selectImageButton = findViewById(R.id.selectImageButton);
+                                if (selectImageButton != null) {
+                                    selectImageButton.setText("Change Image");
+                                    selectImageButton.setEnabled(true);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onError(String requestId, ErrorInfo error) {
+                            Log.e(TAG, "Upload error: " + error.getDescription());
+
+                            runOnUiThread(() -> {
+                                Toast.makeText(CreateEvent.this, "Failed to upload image: " + error.getDescription(), Toast.LENGTH_SHORT).show();
+                                Button selectImageButton = findViewById(R.id.selectImageButton);
+                                if (selectImageButton != null) {
+                                    selectImageButton.setText("Select Image");
+                                    selectImageButton.setEnabled(true);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onReschedule(String requestId, ErrorInfo error) {
+                            Log.e(TAG, "Upload rescheduled: " + error.getDescription());
+                        }
+                    })
+                    .dispatch();
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error uploading to Cloudinary: " + e.getMessage());
+            Toast.makeText(this, "Error uploading image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Button selectImageButton = findViewById(R.id.selectImageButton);
+            if (selectImageButton != null) {
+                selectImageButton.setText("Select Image");
+                selectImageButton.setEnabled(true);
+            }
         }
     }
 
@@ -239,10 +341,8 @@ public class CreateEvent extends AppCompatActivity {
             public void onClick(View v) {
                 // Validate form fields
                 if (validateForm()) {
-                    // Save event details
-                    saveEventDetails();
-                    Intent intent = new Intent(CreateEvent.this, Volunteer_Roles.class);
-                    startActivity(intent);
+                    // Save event details to Firebase
+                    saveEventToFirebase();
                 }
             }
         });
@@ -274,11 +374,12 @@ public class CreateEvent extends AppCompatActivity {
         return valid;
     }
 
+    private void saveEventToFirebase() {
+        // Show loading indicator
+        Toast.makeText(CreateEvent.this, "Creating event...", Toast.LENGTH_SHORT).show();
+        nextButton.setEnabled(false);
 
-
-
-
-    private void saveEventDetails() {
+        // Get event details
         String title = eventTitle.getText().toString().trim();
         String description = eventDesc.getText().toString().trim();
         String date = eventDate.getText().toString().trim();
@@ -287,116 +388,86 @@ public class CreateEvent extends AppCompatActivity {
         String category = eventCat.getSelectedItem().toString();
         boolean isOfflineEvent = eventSwitch.isChecked();
 
-
-        Event event = new Event(title, description, date, time, location, category, isOfflineEvent, selectedImageUri);
-        boolean success = saveEventToDatabase(event);
-
-        if (success) {
-            Toast.makeText(this, "Event created successfully", Toast.LENGTH_SHORT).show();
-            finish();
-        } else {
-            Toast.makeText(this, "Failed to create event. Please try again.", Toast.LENGTH_SHORT).show();
+        // Get current user ID
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() == null) {
+            Toast.makeText(CreateEvent.this, "You must be logged in to create an event", Toast.LENGTH_SHORT).show();
+            nextButton.setEnabled(true);
+            return;
         }
+        String uid = auth.getCurrentUser().getUid();
+
+        // Initialize Firestore
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Create event data map according to the specified structure
+        Map<String, Object> eventData = new HashMap<>();
+        eventData.put("title", title);
+        eventData.put("description", description);
+        eventData.put("date", date);
+        eventData.put("time", time);
+        eventData.put("loc", location);
+        eventData.put("category", category);
+        eventData.put("offline", isOfflineEvent);
+        eventData.put("imageUrl", cloudinaryUrl != null ? cloudinaryUrl : (selectedImageUri != null ? selectedImageUri.toString() : ""));
+        eventData.put("organiserId", uid);
+        eventData.put("createdAt", FieldValue.serverTimestamp());
+        eventData.put("roles", new ArrayList<>()); // Initialize with empty roles array
+
+        // Save to Firestore
+        db.collection("events").add(eventData).addOnSuccessListener(docRef -> {
+            String eventId = docRef.getId();
+
+            // Update the NGO document to include this event ID
+            db.collection("NGO").document(uid).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
+                    // Document exists, update it
+                    db.collection("NGO").document(uid)
+                            .update("events", FieldValue.arrayUnion(eventId))
+                            .addOnSuccessListener(aVoid -> {
+                                // Navigate to Volunteer_Roles page with event ID
+                                Intent intent = new Intent(CreateEvent.this, Volunteer_Roles.class);
+                                intent.putExtra("eventId", eventId);
+                                startActivity(intent);
+                                nextButton.setEnabled(true);
+                            })
+                            .addOnFailureListener(e -> {
+                                // Continue anyway, we can update the NGO document later
+                                Intent intent = new Intent(CreateEvent.this, Volunteer_Roles.class);
+                                intent.putExtra("eventId", eventId);
+                                startActivity(intent);
+                                nextButton.setEnabled(true);
+                                Toast.makeText(CreateEvent.this, "Note: Failed to update profile", Toast.LENGTH_SHORT).show();
+                            });
+                } else {
+                    // Document doesn't exist, create it
+                    Map<String, Object> ngoData = new HashMap<>();
+                    ArrayList<String> events = new ArrayList<>();
+                    events.add(eventId);
+                    ngoData.put("events", events);
+
+                    db.collection("NGO").document(uid).set(ngoData)
+                            .addOnSuccessListener(aVoid -> {
+                                // Navigate to Volunteer_Roles page with event ID
+                                Intent intent = new Intent(CreateEvent.this, Volunteer_Roles.class);
+                                intent.putExtra("eventId", eventId);
+                                startActivity(intent);
+                                nextButton.setEnabled(true);
+                            })
+                            .addOnFailureListener(e -> {
+                                // Continue anyway, we can update the NGO document later
+                                Intent intent = new Intent(CreateEvent.this, Volunteer_Roles.class);
+                                intent.putExtra("eventId", eventId);
+                                startActivity(intent);
+                                nextButton.setEnabled(true);
+                                Toast.makeText(CreateEvent.this, "Note: Failed to update profile", Toast.LENGTH_SHORT).show();
+                            });
+                }
+            });
+        }).addOnFailureListener(e -> {
+            Toast.makeText(CreateEvent.this, "Failed to create event: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            nextButton.setEnabled(true);
+        });
     }
-
-    private boolean saveEventToDatabase(Event event) {
-        // This is a placeholder method. You would implement your database saving logic here
-        // For example, using Firebase, Room, or SQLite
-
-        // For now, just return true to simulate successful saving
-        return true;
-    }
-
-
-    private class Event {
-        private String title;
-        private String description;
-        private String date;
-        private String time;
-        private String location;
-        private String category;
-        private boolean isOfflineEvent;
-        private Uri imageUri;
-
-        public Event(String title, String description, String date, String time, String location,
-                     String category, boolean isOfflineEvent, Uri imageUri) {
-            this.title = title;
-            this.description = description;
-            this.date = date;
-            this.time = time;
-            this.location = location;
-            this.category = category;
-            this.isOfflineEvent = isOfflineEvent;
-            this.imageUri = imageUri;
-        }
-
-        // Getters and setters
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public String getDate() {
-            return date;
-        }
-
-        public void setDate(String date) {
-            this.date = date;
-        }
-
-        public String getTime() {
-            return time;
-        }
-
-        public void setTime(String time) {
-            this.time = time;
-        }
-
-        public String getLocation() {
-            return location;
-        }
-
-        public void setLocation(String location) {
-            this.location = location;
-        }
-
-        public String getCategory() {
-            return category;
-        }
-
-        public void setCategory(String category) {
-            this.category = category;
-        }
-
-        public boolean isOfflineEvent() {
-            return isOfflineEvent;
-        }
-
-        public void setOfflineEvent(boolean offlineEvent) {
-            isOfflineEvent = offlineEvent;
-        }
-
-        public Uri getImageUri() {
-            return imageUri;
-        }
-
-        public void setImageUri(Uri imageUri) {
-            this.imageUri = imageUri;
-        }
-    }
-
-
-
-
 }
+

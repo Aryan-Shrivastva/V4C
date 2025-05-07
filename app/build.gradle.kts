@@ -59,4 +59,9 @@ dependencies {
     implementation ("com.google.code.gson:gson:2.10.1")
 
     implementation ("com.google.android.gms:play-services-maps:18.0.2")
+
+    implementation ("com.cloudinary:cloudinary-android:2.3.1")
+    implementation ("com.cloudinary:cloudinary-core:1.33.0")
+
+
 }
