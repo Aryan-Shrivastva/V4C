@@ -46,17 +46,12 @@ public class loadingActivity extends AppCompatActivity {
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
                             String type = documentSnapshot.getString("type");
-                            if ("user".equals(type)) {
                                 Toast.makeText(this, "VOLUNTEER SIDE", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(loadingActivity.this, HomePage.class));
-                            }
-                            else {
-                                Toast.makeText(this, "NGO SIDE", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(loadingActivity.this, NgoDashboard.class));
-                            }
                             finish();
                         } else {
-                            Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "NGO SIDE", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(loadingActivity.this, NgoDashboard.class));
                         }
                     })
                     .addOnFailureListener(e -> {

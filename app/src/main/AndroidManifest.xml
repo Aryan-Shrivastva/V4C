@@ -31,11 +31,21 @@
 
         <activity android:name=".loadingActivity" />
 
+        <activity android:name=".volunteer.EventDetailActivity"
+            android:exported="true">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
 
 
         <activity
             android:name=".ngo.NgoDashboard"
-            android:exported="false" />
+            android:exported="true" >
+        </activity>
+
         <activity
             android:name=".Volunteer_Roles"
             android:exported="false" />
@@ -43,7 +53,6 @@
             android:name=".volunteer.HomePage"
             android:exported="false" />
         <activity android:name=".volunteer.CommunityDetailActivity" />
-        <activity android:name=".volunteer.EventListing" />
 
         <activity
             android:name=".CreateEvent"
@@ -63,9 +72,14 @@
             android:name=".Welcome_Page"
             android:exported="false" />
 
+
+        <activity android:name=".volunteer.EventListing" />
+        <activity android:name=".volunteer.Explore"/>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBK7GTsxeLS2sXZuajUI-g9LIO8mDnRvXo" />
     </application>

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
@@ -23,7 +24,6 @@ import com.example.v4c.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +34,7 @@ public class HomePage extends AppCompatActivity {
     FirebaseUser user;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     LinearLayout volunteer, events, rewards, explore;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,12 @@ public class HomePage extends AppCompatActivity {
 
         events.setOnClickListener(v->{
             Intent intent = new Intent(HomePage.this, EventListing.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        explore.setOnClickListener(v->{
+            Intent intent = new Intent(HomePage.this, Explore.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
@@ -93,6 +100,26 @@ public class HomePage extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        RecyclerView eventRecycler = findViewById(R.id.eventsRecycler);
+        eventRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        List<EventModel> eventList = new ArrayList<>();
+        EventAdapter eventAdapter = new EventAdapter(this, eventList);
+        eventRecycler.setAdapter(eventAdapter);
+
+        db.collection("events").get().addOnSuccessListener(queryDocumentSnapshots -> {
+            eventList.clear();
+            for (var doc : queryDocumentSnapshots.getDocuments()) {
+                EventModel model = doc.toObject(EventModel.class);
+                if (model != null) {
+                    Log.d("EVENT_DEBUG", "Title: " + model.getTitle());
+                    eventList.add(model);
+                }
+//                eventList.add(model);
+            }
+            eventAdapter.notifyDataSetChanged();
+        }).addOnFailureListener(Throwable::printStackTrace);
     }
 
     private void createNotificationChannel() {

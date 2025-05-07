@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:background="@drawable/v4c_background_color"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".volunteer.EventDetailActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_marginTop="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="330dp"
+                android:layout_gravity="center"
+                android:padding="20dp"
+                android:orientation="vertical">
+
+
+
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    app:cardCornerRadius="20dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center">
+
+                        <ImageView
+                            android:id="@+id/eventImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/fur_ever">
+                        </ImageView>
+
+                        <TextView
+                            android:id="@+id/eventTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/poppins_bold"
+                            android:textSize="30dp"
+                            android:text="Fur-Ever Yours">
+                        </TextView>
+                    </FrameLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/event_page_box"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:orientation="vertical">
+                    
+                    <TextView
+                        android:id="@+id/eventDateTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:gravity="center"
+                        android:paddingTop="10dp"
+                        android:textSize="25dp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:text="2nd December, 4:30 PM">
+
+                    </TextView>
+                    
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <android.widget.Button
+                            android:layout_width="70dp"
+                            android:text="Animals"
+                            android:textColor="@color/white"
+                            android:textSize="10dp"
+                            android:background="@drawable/event_box_1"
+                            android:layout_height="30dp">
+
+                        </android.widget.Button>
+
+                        <Space
+                            android:layout_width="10dp"
+                            android:layout_height="match_parent">
+
+                        </Space>
+
+                        <android.widget.Button
+                            android:layout_width="70dp"
+                            android:text="Adoption"
+                            android:textColor="@color/white"
+                            android:textSize="10dp"
+                            android:background="@drawable/event_box_2"
+                            android:layout_height="30dp">
+
+                        </android.widget.Button>
+
+                        <Space
+                            android:layout_width="10dp"
+                            android:layout_height="match_parent">
+
+                        </Space>
+
+                        <android.widget.Button
+                            android:layout_width="70dp"
+                            android:text="PFA"
+                            android:textColor="@color/white"
+                            android:textSize="10dp"
+                            android:background="@drawable/event_box_3"
+                            android:layout_height="30dp">
+
+                        </android.widget.Button>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/eventDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:textColor="#979797"
+                        android:padding="10dp"
+                        android:textSize="17dp"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:text="Fur-ever Yours will be a heartwarming pet adoption drive, connecting loving pets with caring homes for lifelong companionship.">
+
+                    </TextView>
+                    
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#F3F1F1"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="110dp"
+                        android:orientation="horizontal"
+                        android:padding="20dp">
+
+                        <ImageView
+                            android:id="@+id/orgImage"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:src="@drawable/asha_kiran">
+
+                        </ImageView>
+
+                        <LinearLayout
+                            android:layout_width="170dp"
+                            android:layout_height="70dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/orgName"
+                                android:layout_width="170dp"
+                                android:layout_height="40dp"
+                                android:text="People for Animals"
+                                android:gravity="center"
+                                android:paddingLeft="5dp"
+                                android:textSize="17dp"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:textColor="@color/black">
+
+                            </TextView>
+                            <TextView
+                                android:layout_width="170dp"
+                                android:layout_height="30dp"
+                                android:paddingLeft="10dp"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:textColor="#979797"
+                                android:text="Chidlren | Education">
+
+                            </TextView>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/orgLoc"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:text="Gurgaon, India"
+                                android:padding="10dp"
+                                android:textSize="13dp"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:textColor="#979797">
+
+                            </TextView>
+                            <android.widget.Button
+                                android:layout_width="80dp"
+                                android:text="Adoption"
+                                android:textColor="@color/white"
+                                android:textSize="10dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/event_box_4"
+                                android:layout_height="20dp">
+
+                            </android.widget.Button>
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/orgDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:textColor="#979797"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:textSize="16dp"
+                        android:text="Animal welfare is not just about animals. It is about us. Our living conditions, our children, our earth. Cruelty to animals has a significant and irreversible impact on peaceful societies, human health, the economy, and the environment."
+                        >
+
+                    </TextView>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <android.widget.Button
+        android:id="@+id/volunteerButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/first_page_button_style"
+        android:text="Volunteer"
+        android:textColor="@color/white"
+        android:fontFamily="@font/poppins_bold"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+    </android.widget.Button>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
