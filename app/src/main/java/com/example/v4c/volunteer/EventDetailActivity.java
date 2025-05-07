@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Glide;
 import com.example.v4c.R;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.example.v4c.volunteer.EventModel;
 import com.google.android.material.chip.Chip;
@@ -23,10 +24,11 @@ import com.google.gson.Gson;
 
 public class EventDetailActivity extends AppCompatActivity {
 
-    private ImageView eventImage;
-    private TextView eventTitle, eventDateTime, eventDescription, orgDescription;
+    private ImageView eventImage, orgImage;
+    private TextView eventTitle, eventDateTime, eventDescription;
 //    private LinearLayout categoryContainer;
     private Button volunteerButton;
+    private TextView orgName, orgLoc, orgDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,11 @@ public class EventDetailActivity extends AppCompatActivity {
 //        categoryContainer = findViewById(R.id.categoryContainer);
         volunteerButton = findViewById(R.id.volunteerButton);
 
+        orgImage = findViewById(R.id.orgImage);
+        orgName = findViewById(R.id.orgName);
+        orgLoc = findViewById(R.id.orgLoc);
+        orgDescription = findViewById(R.id.orgDescription);
+
         // Get Event object from Intent
         String eventJson = getIntent().getStringExtra("event");
         EventModel event = new Gson().fromJson(eventJson, EventModel.class);
@@ -62,9 +69,26 @@ public class EventDetailActivity extends AppCompatActivity {
 
             // Set data
             eventTitle.setText(event.getTitle());
-            eventDateTime.setText(event.getDate() + ", " + event.getTime());
+            eventDateTime.setText(formatDate(event.getDate()) + " @ " + formatTime(event.getTime()));
             eventDescription.setText(event.getDescription());
-            orgDescription.setText(event.getDescription());
+            FirebaseFirestore.getInstance()
+                    .collection("NGO")
+                    .document(event.getOrganiserId()) // Assuming organiserId matches document ID
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            String name = documentSnapshot.getString("name");
+                            String imageUrl = documentSnapshot.getString("sub_image");
+                            String location = documentSnapshot.getString("place");
+//                            String domain = documentSnapshot.getString("domain");
+                            String description = documentSnapshot.getString("about");
+
+                            orgName.setText(name);
+                            orgLoc.setText(location);
+                            orgDescription.setText(description);
+                            Glide.with(this).load(imageUrl).into(orgImage);
+                        }
+                    });
 
 
 //             Volunteer button;
@@ -94,5 +118,27 @@ public class EventDetailActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+    private String formatDate(String dateStr) {
+        try {
+            java.text.SimpleDateFormat inputFormat = new java.text.SimpleDateFormat("dd-MM-yyyy");
+            java.text.SimpleDateFormat outputFormat = new java.text.SimpleDateFormat("MMMM d, yyyy");
+            java.util.Date date = inputFormat.parse(dateStr);
+            return outputFormat.format(date);
+        } catch (Exception e) {
+            return dateStr; // fallback
+        }
+    }
+
+    private String formatTime(String timeStr) {
+        try {
+            java.text.SimpleDateFormat inputFormat = new java.text.SimpleDateFormat("HH:mm");
+            java.text.SimpleDateFormat outputFormat = new java.text.SimpleDateFormat("h a");
+            java.util.Date date = inputFormat.parse(timeStr);
+            return outputFormat.format(date);
+        } catch (Exception e) {
+            return timeStr; // fallback
+        }
     }
 }

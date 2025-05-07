@@ -42,8 +42,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         EventModel event = eventList.get(position);
 
-        Log.d("EventAdapter", "Date " + formatDate(event.getDate()));
-        Log.d("EventAdapter", "Date " + formatDate(event.getTime()));
+
         holder.title.setText(event.getTitle());
         holder.date.setText(formatDate(event.getDate()));
         holder.time.setText(formatTime(event.getTime()));
@@ -56,6 +55,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             Intent intent = new Intent(context, EventDetailActivity.class);
             intent.putExtra("event", new Gson().toJson(event));
             context.startActivity(intent);
+
+            Log.d("EventAdapter", "Raw date: " + event.getDate());
+            Log.d("EventAdapter", "Raw time: " + event.getTime());
+
+            Log.d("EventAdapter", "Date " + formatDate(event.getDate()));
+            Log.d("EventAdapter", "Date " + formatDate(event.getTime()));
             //animation
             if (context instanceof Activity) {
                 ((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

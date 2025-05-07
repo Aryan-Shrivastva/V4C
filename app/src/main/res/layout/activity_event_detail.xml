@@ -183,6 +183,7 @@
                         android:padding="20dp">
 
                         <ImageView
+                            android:id="@+id/orgImage"
                             android:layout_width="70dp"
                             android:layout_height="70dp"
                             android:src="@drawable/asha_kiran">
@@ -195,6 +196,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/orgName"
                                 android:layout_width="170dp"
                                 android:layout_height="40dp"
                                 android:text="People for Animals"
@@ -211,7 +213,7 @@
                                 android:paddingLeft="10dp"
                                 android:fontFamily="@font/poppins_semibold"
                                 android:textColor="#979797"
-                                android:text="Animal Welfare">
+                                android:text="Chidlren | Education">
 
                             </TextView>
                         </LinearLayout>
@@ -222,6 +224,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/orgLoc"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
                                 android:text="Gurgaon, India"

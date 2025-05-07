@@ -32,7 +32,7 @@
         <activity android:name=".loadingActivity" />
 
         <activity android:name=".volunteer.EventDetailActivity"
-            android:exported="false">
+            android:exported="true">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 
@@ -43,12 +43,8 @@
 
         <activity
             android:name=".ngo.NgoDashboard"
-            android:exported="false" >
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            android:exported="true" >
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
         </activity>
 
         <activity

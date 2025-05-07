@@ -40,8 +40,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         EventModel event = eventList.get(position);
         holder.title.setText(event.getTitle());
-        holder.date.setText(event.getDate());
-        holder.time.setText(event.getTime());
+
+        holder.date.setText(formatDate(event.getDate()));
+        holder.time.setText(formatTime(event.getTime()));
         holder.location.setText(event.getLoc());
 
         Glide.with(context).load(event.getImageUrl()).into(holder.image);
@@ -74,6 +75,28 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             time = itemView.findViewById(R.id.event_time);
             location = itemView.findViewById(R.id.event_location);
             image = itemView.findViewById(R.id.bg_image); // Make sure you added id in event.xml
+        }
+    }
+
+    private String formatDate(String dateStr) {
+        try {
+            java.text.SimpleDateFormat inputFormat = new java.text.SimpleDateFormat("dd-MM-yyyy");
+            java.text.SimpleDateFormat outputFormat = new java.text.SimpleDateFormat("MMMM d, yyyy");
+            java.util.Date date = inputFormat.parse(dateStr);
+            return outputFormat.format(date);
+        } catch (Exception e) {
+            return dateStr; // fallback
+        }
+    }
+
+    private String formatTime(String timeStr) {
+        try {
+            java.text.SimpleDateFormat inputFormat = new java.text.SimpleDateFormat("HH:mm");
+            java.text.SimpleDateFormat outputFormat = new java.text.SimpleDateFormat("h a");
+            java.util.Date date = inputFormat.parse(timeStr);
+            return outputFormat.format(date);
+        } catch (Exception e) {
+            return timeStr; // fallback
         }
     }
 }

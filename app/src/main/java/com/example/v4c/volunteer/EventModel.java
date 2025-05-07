@@ -8,13 +8,14 @@ public class EventModel {
     private String loc;
     private String category;
     private String imageUrl;
+    private String organiserId;
 
     public EventModel()
     {
 
     }
 
-    public EventModel(String title, String description, String date, String time, String loc, String category, String imageUrl)
+    public EventModel(String title, String description, String date, String time, String loc, String category, String imageUrl, String organiserId)
     {
         this.category=category;
         this.time=time;
@@ -23,6 +24,7 @@ public class EventModel {
         this.date=date;
         this.imageUrl=imageUrl;
         this.loc=loc;
+        this.organiserId=organiserId;
     }
 
     public String getTitle(){
@@ -50,6 +52,10 @@ public class EventModel {
     }
     public String getCategory(){
         return category;
+    }
+
+    public String getOrganiserId(){
+        return organiserId;
     }
 
 
