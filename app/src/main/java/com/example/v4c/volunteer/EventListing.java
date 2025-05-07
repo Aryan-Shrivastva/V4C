@@ -18,7 +18,7 @@ public class EventListing extends AppCompatActivity {
 
     RecyclerView recyclerView;
     List<EventModel> eventList;
-    EventAdapter eventAdapter;
+    EventListingAdapter eventListingAdapter;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
@@ -29,10 +29,12 @@ public class EventListing extends AppCompatActivity {
         recyclerView = findViewById(R.id.eventsRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         eventList = new ArrayList<>();
-        eventAdapter = new EventAdapter(this, eventList);
-        recyclerView.setAdapter(eventAdapter);
+        eventListingAdapter = new EventListingAdapter(this, eventList);
+        recyclerView.setAdapter(eventListingAdapter);
 
         fetchEvents();
+
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar3);
 
@@ -51,7 +53,7 @@ public class EventListing extends AppCompatActivity {
                 EventModel event = doc.toObject(EventModel.class);
                 eventList.add(event);
             }
-            eventAdapter.notifyDataSetChanged();
+            eventListingAdapter.notifyDataSetChanged();
         }).addOnFailureListener(Throwable::printStackTrace);
     }
 

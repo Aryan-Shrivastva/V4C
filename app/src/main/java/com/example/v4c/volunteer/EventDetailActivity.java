@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Glide;
 import com.example.v4c.R;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.example.v4c.volunteer.EventModel;
@@ -27,7 +28,7 @@ public class EventDetailActivity extends AppCompatActivity {
     private ImageView eventImage, orgImage;
     private TextView eventTitle, eventDateTime, eventDescription;
 //    private LinearLayout categoryContainer;
-    private Button volunteerButton;
+    private ExtendedFloatingActionButton volunteerButton;
     private TextView orgName, orgLoc, orgDescription;
 
     @Override
