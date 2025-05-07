@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.v4c.ngo.NgoDashboard;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -78,6 +79,9 @@ public class Volunteer_Roles extends AppCompatActivity {
                                         .addOnCompleteListener(task -> {
                                             // Finish the activity regardless of whether the update succeeded
                                             Toast.makeText(Volunteer_Roles.this, "Event cancelled", Toast.LENGTH_SHORT).show();
+                                            intent.setClass(Volunteer_Roles.this, NgoDashboard.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(intent);
                                             finish();
                                         });
                             })
@@ -91,6 +95,7 @@ public class Volunteer_Roles extends AppCompatActivity {
                     Toast.makeText(Volunteer_Roles.this, "User not logged in", Toast.LENGTH_SHORT).show();
                     finish();
                 }
+
             } else {
                 // No event ID
                 finish();
@@ -201,6 +206,9 @@ public class Volunteer_Roles extends AppCompatActivity {
                     .update("roles", rolesList)
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(this, "Roles added successfully!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(Volunteer_Roles.this, NgoDashboard.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
                         finish();
                     })
                     .addOnFailureListener(e -> {

@@ -25,7 +25,7 @@ public class Explore extends AppCompatActivity implements OnMapReadyCallback{
 
 
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+//        EdgeToEdge.enable(this);
 
         setContentView(R.layout.activity_explore);
 
