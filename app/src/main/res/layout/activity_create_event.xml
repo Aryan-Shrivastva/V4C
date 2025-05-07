@@ -40,6 +40,7 @@
                     android:paddingBottom="12dp">
 
                     <ImageView
+                        android:id="@+id/back"
                         android:layout_width="40dp"
                         android:layout_height="43dp"
                         android:src="@drawable/back_arrow"
@@ -61,14 +62,6 @@
                             android:textStyle="bold"
                             android:textColor="@color/black" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Level 3"
-                            android:fontFamily="@font/poppins_regular"
-                            android:textColor="#DB3D3D"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <ImageView
@@ -476,7 +469,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:background="@drawable/next_button"
+        android:src="@drawable/arrow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
